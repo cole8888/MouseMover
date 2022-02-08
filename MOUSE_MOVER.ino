@@ -42,7 +42,7 @@
 #define WARNING_LED_PLAYS 3
 
 // Offset to use in order to correct for the time the warning animation takes.
-#define WARNING_OFFSET WARNING_LED_PLAYS*WARNING_LED_DELAY
+#define WARNING_OFFSET 2*WARNING_LED_PLAYS*WARNING_LED_DELAY
 
 // Maximum number of pixels the mouse is allowed to move away from the the current position.
 // Must be smaller than the respective SCREEN_X or SCREEN_Y.
