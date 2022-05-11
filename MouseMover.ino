@@ -32,17 +32,23 @@
 #define MOVE_MIN_RESOLUTION 30
 
 // Maximum and minimum delay in ms between finishing moving along an entire curve and starting on a new curve.
-#define MOVE_MAX_DELAY 230000
-#define MOVE_MIN_DELAY 200000
+#define MOVE_MAX_DELAY 270000
+#define MOVE_MIN_DELAY 210000
 
-// Delay in ms between flipping between turning on the RX/TX LEDs to warn of imminent movement.
-#define WARNING_LED_DELAY 500
+// Delay in ms between flipping between turning on and off the RX/TX LEDs to warn of imminent movement.
+#define BACK_AND_FORTH_DELAY 450
 
-// Number of times to play the warning message on the RX/TX LEDs.
-#define WARNING_LED_PLAYS 3
+// Delay in ms between blinks to get attention of user that a movement even will happen soon.
+#define BLINK_DELAY 200
+
+// Number of times to play the back and forth warning message on the RX/TX LEDs.
+#define BACK_AND_FORTH_PLAYS 3
+
+// Number of times to play the blink warning message on the TX/RX LEDs.
+#define BLINK_PLAYS 6
 
 // Offset to use in order to correct for the time the warning animation takes.
-#define WARNING_OFFSET WARNING_LED_PLAYS*WARNING_LED_DELAY
+#define WARNING_OFFSET (BACK_AND_FORTH_PLAYS*BACK_AND_FORTH_DELAY*2) + (BLINK_PLAYS*BLINK_DELAY*2)
 
 // Maximum number of pixels the mouse is allowed to move away from the the current position.
 // Must be smaller than the respective SCREEN_X or SCREEN_Y.
@@ -66,7 +72,7 @@ void setup(){
 		WILL START MOVING YOUR MOUSE ALL OVER THE PLACE BEFORE YOU CAN CLICK THE PROGRAM BUTTON
 		!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	*/
-	delay(6000);	// NO TOUCHY!
+	delay(5000);	// NO TOUCHY!
 	/*
 		OKAY EVERYTHING BEYOND HERE IS OK TO CHANGE
 	*/
@@ -157,16 +163,36 @@ void goToPoint(int x4, int y4){
 	curPosY = y4;
 }
 
+void playBackAndForth(uint8_t repeats){
+  for(uint8_t i = 0; i < repeats; i++){
+    digitalWrite(RXLED, LOW);
+    TXLED0;
+    delay(BACK_AND_FORTH_DELAY);
+    digitalWrite(RXLED, HIGH);
+    TXLED1;
+    delay(BACK_AND_FORTH_DELAY);
+  }
+}
+
+void playBlink(uint8_t repeats){
+  for(uint8_t i = 0; i < repeats; i++){
+    digitalWrite(RXLED, LOW);
+    TXLED1;
+    delay(BLINK_DELAY);
+    digitalWrite(RXLED, HIGH);
+    TXLED0;
+    delay(BLINK_DELAY);
+  }
+}
+
+void playWarningAnim(){
+  playBlink(BLINK_PLAYS);
+  playBackAndForth(BACK_AND_FORTH_PLAYS);
+}
+
 void loop(){
 	// Play the warning message on the TX/RX LEDs to indicate movement is about to happen.
-	for(uint8_t i = 0; i < WARNING_LED_PLAYS; i++){
-		digitalWrite(RXLED, LOW);
-		TXLED0;
-		delay(WARNING_LED_DELAY);
-		digitalWrite(RXLED, HIGH);
-		TXLED1;
-		delay(WARNING_LED_DELAY);
-	}
+	playWarningAnim();
 
 	// Generate a random target position.
 	int x4 = pickValidControlPointX();
