@@ -1,0 +1,44 @@
+################################################################################
+################## Logitech Optical Mouse (aka: Pro Micro) #####################
+################################################################################
+# If you use this make sure you add the sparkfun avr boards to your boards manager
+# and add this board to the boards.txt in the sparkfun folder.
+# More details: https://www.shellhacks.com/arduino-pro-micro-board-selection/
+#
+# Also here are some details about changing the device name, product id and vendor id:
+# https://www.shellhacks.com/arduino-change-devices-vid-pid-name/
+logitechMouse.name=Logitech Optical Mouse
+
+logitechMouse.upload.tool=avrdude
+logitechMouse.upload.protocol=avr109
+logitechMouse.upload.maximum_size=28672
+logitechMouse.upload.maximum_data_size=2560
+logitechMouse.upload.speed=57600
+logitechMouse.upload.disable_flushing=true
+logitechMouse.upload.use_1200bps_touch=true
+logitechMouse.upload.wait_for_upload_port=true
+
+logitechMouse.bootloader.tool=avrdude
+logitechMouse.bootloader.unlock_bits=0x3F
+logitechMouse.bootloader.lock_bits=0x2F
+logitechMouse.bootloader.low_fuses=0xFF
+logitechMouse.bootloader.high_fuses=0xD8
+
+logitechMouse.build.board=AVR_PROMICRO
+logitechMouse.build.core=arduino:arduino
+logitechMouse.build.variant=promicro
+logitechMouse.build.mcu=atmega32u4
+logitechMouse.build.usb_manufacturer="Logitech, Inc."
+logitechMouse.build.usb_product="Optical Wheel Mouse"
+logitechMouse.build.vid=0x046d
+logitechMouse.build.extra_flags={build.usb_flags}
+
+logitechMouse.menu.cpu.16MHzatmega32U4=ATmega32U4 (5V, 16 MHz)
+
+logitechMouse.menu.cpu.16MHzatmega32U4.build.pid.0=0x9205
+logitechMouse.menu.cpu.16MHzatmega32U4.build.pid.1=0x9206
+logitechMouse.menu.cpu.16MHzatmega32U4.build.pid=0xc016
+logitechMouse.menu.cpu.16MHzatmega32U4.build.f_cpu=16000000L
+
+logitechMouse.menu.cpu.16MHzatmega32U4.bootloader.extended_fuses=0xCB
+logitechMouse.menu.cpu.16MHzatmega32U4.bootloader.file=caterina/Caterina-promicro16.hex
